@@ -1,4 +1,3 @@
-import re
 from typing import Callable, Dict
 from contacts import contact_book
 
@@ -17,12 +16,12 @@ def command_handler(func):
     return wrapper
 
 
-@input_handler
+@command_handler
 
 def hello_handler(*args):
     return "How can I help you?"
 
-@input_handler
+@command_handler
 
 def add_handler(username: str, number: str):
     if contact_book.get(username) is None:
@@ -30,7 +29,7 @@ def add_handler(username: str, number: str):
         return "Number was added!!!"
     raise ValueError("Number already in contact book")
 
-@input_handler
+@command_handler
 
 def change_handler(username: str, number: str):
     if contact_book.get(username) is not None:
@@ -38,7 +37,7 @@ def change_handler(username: str, number: str):
         return "Number was changed!!!"
     raise KeyError("Number does not exists!")
 
-@input_handler
+@command_handler
 
 def phone_handler(username: str):
     phone = contact_book.get(username)
@@ -46,7 +45,7 @@ def phone_handler(username: str):
         return f"User number is {phone}"
     raise ValueError
 
-@input_handler
+@command_handler
 
 def show_all_handler(*args):
     all_response = "Contact book\n"
@@ -56,12 +55,12 @@ def show_all_handler(*args):
     formatted_contacts = "Number does not exists, yet!" if contacts == '' else contacts
     return all_response + formatted_contacts
    
-@input_handler
+@command_handler
 
 def exit_handler(*args):
     raise SystemExit("Good bye!!!")
 
-@input_handler
+@command_handler
 
 def unknown_handler(*args):
     raise ValueError("Command is not valid!")

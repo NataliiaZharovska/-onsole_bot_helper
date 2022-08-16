@@ -1,4 +1,14 @@
-from handlers import input_handler
+
+
+def parser_handler(func):
+    def wrapper(user_input: str):
+        try:
+            return func(user_input)
+        except ValueError as e:
+            return str(e)
+        except KeyError as e:
+            return str(e)
+    return wrapper
 
 
 def hello_parser(user_input: str):
@@ -20,7 +30,7 @@ def change_parser(user_input: str):
     if username == "" or phone == "":
         raise ValueError("Bad input")
     else:
-        return "add", [username, phone]
+        return "change", [username, phone]
 
 
 def phone_parser(user_input: str):
@@ -59,7 +69,8 @@ command_parser = {
     "exit": exit_parser,
 }
 
-@input_handler
+
+@parser_handler
 def parse_user_input(user_input: str) -> tuple[str, list]:
     for command in command_parser.keys():
         normalized_input = ' '.join(
